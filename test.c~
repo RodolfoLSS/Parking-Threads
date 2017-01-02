@@ -20,6 +20,7 @@ int main(){
 	pthread_t thread1;
 	char *msg1 = "Numero de vagas disponiveis:";
 	int ret1;
+	//vagas--;
 
 	ret1 = pthread_create(&thread1, NULL, painel, (void *) msg1);
 
