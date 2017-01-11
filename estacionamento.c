@@ -15,7 +15,8 @@ void *painel1 (void *arg){
 	int loop = 1;
 
 	while(loop){
-		printf("Painel 1\nNumero de vagas disponiveis: %d\n\n", 50-carro_num);
+		sem_getvalue(&vagas,&carro_num);
+		printf("Painel 1\nNumero de vagas disponiveis: %d\n\n", carro_num);
 		sleep(3);
 	}
 
@@ -28,7 +29,8 @@ void *painel2 (void *arg){
 	int loop = 1;
 
 	while(loop){
-		printf("Painel 2\nNumero de vagas disponiveis: %d\n\n", 50-carro_num);
+		sem_getvalue(&vagas,&carro_num);
+		printf("Painel 2\nNumero de vagas disponiveis: %d\n\n", carro_num);
 		sleep(2);
 	}
 
@@ -36,21 +38,19 @@ void *painel2 (void *arg){
 }
 
 void *carro (void *arg){
-	int loop = 1;
+	int loop = 1,car;
 	pid_t id = syscall(__NR_gettid);
 	
 	while(loop){	
 		sem_wait(&mutex);
 		sem_wait(&vagas);
 
-		carro_num++;
-		printf("Carro %d dentro do estacionamento\n", id-21600);
+		printf("Carro %d dentro do estacionamento\n", id-22000);
 		sem_post(&mutex);
 	
 		sleep(5);
 
-		printf("Carro %d fora do estacionamento\n", id-21600);
-		carro_num--;
+		printf("Carro %d fora do estacionamento\n", id-22000);
 		
 		sem_post(&vagas);
 
